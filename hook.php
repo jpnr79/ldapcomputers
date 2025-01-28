@@ -66,7 +66,7 @@ function plugin_ldapcomputers_install() {
                   KEY `is_active` (`is_active`),
                   KEY `date_creation` (`date_creation`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;';
-      $DB->queryOrDie($query, $DB->error());
+      $DB->doQueryOrDie($query, $DB->error());
    }
 
    //Create backup ldaps table only if it does not exists yet!
@@ -79,7 +79,7 @@ function plugin_ldapcomputers_install() {
                   `port` int(11) NOT NULL DEFAULT 389,
                   PRIMARY KEY (`id`)
                   ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;';
-      $DB->queryOrDie($query, $DB->error());
+      $DB->doQueryOrDie($query, $DB->error());
    }
 
    //Create computers table only if it does not exists yet!
@@ -112,7 +112,7 @@ function plugin_ldapcomputers_install() {
                   KEY `plugin_ldapcomputers_states_id` (`plugin_ldapcomputers_states_id`),
                   KEY `plugin_ldapcomputers_configs_id` (`plugin_ldapcomputers_configs_id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;';
-      $DB->queryOrDie($query, $DB->error());
+      $DB->doQueryOrDie($query, $DB->error());
    }
 
    //Create computers table only if it does not exists yet!
@@ -126,7 +126,7 @@ function plugin_ldapcomputers_install() {
                   PRIMARY KEY (`id`),
                   KEY `name` (`name`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;';
-      $DB->queryOrDie($query, $DB->error());
+      $DB->doQueryOrDie($query, $DB->error());
    }
 
    /* Placeholder for further update process in future
@@ -307,7 +307,7 @@ function plugin_ldapcomputers_uninstall() {
       $tablename = 'glpi_plugin_ldapcomputers_' . $table;
       //Drop table only if it does not exists yet!
       if ($DB->tableExists($tablename)) {
-         $DB->queryOrDie(
+         $DB->doQueryOrDie(
             "DROP TABLE `$tablename`", $DB->error()
          );
       }

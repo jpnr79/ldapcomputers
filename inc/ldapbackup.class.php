@@ -51,11 +51,11 @@ class PluginLdapcomputersLdapbackup extends CommonDBTM {
    static $rightname = 'plugin_ldapcomputers_config';
 
 
-   static function canCreate() {
+   static function canCreate():bool {
       return static::canUpdate();
    }
 
-   static function canPurge() {
+   static function canPurge():bool {
       return static::canUpdate();
    }
 

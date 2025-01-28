@@ -57,11 +57,11 @@ class PluginLdapcomputersComputer extends CommonDBTM {
       return _n('View LDAP computer', 'View LDAP computers', $nb, 'ldapcomputers');
    }
 
-   static function canCreate() {
+   static function canCreate():bool {
       return false;
    }
 
-   static function canPurge() {
+   static function canPurge():bool {
       return static::canUpdate();
    }
 

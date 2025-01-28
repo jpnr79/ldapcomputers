@@ -64,11 +64,11 @@ class PluginLdapcomputersConfig extends CommonDBTM {
       return _n('LDAP directory', 'LDAP directories', $nb);
    }
 
-   static function canCreate() {
+   static function canCreate():bool {
       return static::canUpdate();
    }
 
-   static function canPurge() {
+   static function canPurge():bool {
       return static::canUpdate();
    }
 
