@@ -93,8 +93,8 @@ function plugin_version_ldapcomputers() {
       'homepage'       => 'https://github.com/akm77/ldapcomputers',
       'requirements'   => [
          'glpi' => [
-            'min' => PLUGIN_LDAPCOMPUTERS_MIN_GLPI,
-            'max' => PLUGIN_LDAPCOMPUTERS_MAX_GLPI,
+            'min' => '11.0',
+            'max' => '12.0',
          ]
       ]
    ];
