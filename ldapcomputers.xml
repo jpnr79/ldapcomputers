@@ -35,6 +35,11 @@
          <compatibility>9.3</compatibility>
          <compatibility>9.2</compatibility>
       </version>
+      <version>
+         <num>0.5.0</num>
+         <compatibility>~11.0.0</compatibility>
+         <download_url>https://github.com/akm77/ldapcomputers/releases/download/v0.5.0/ldapcomputers-v0.5.0.tar.gz</download_url>
+      </version>
    </versions>
    <langs>
       <!-- Add as many lang tag you want -->
