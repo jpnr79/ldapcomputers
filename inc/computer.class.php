@@ -466,7 +466,7 @@ class PluginLdapcomputersComputer extends CommonDBTM {
       $ldap_server->getFromDB($_SESSION['ldap_computers_import']['primary_ldap_id'] );
       echo "<div class='center'>";
 
-      echo "<form method='post' action='".$_SERVER['PHP_SELF']."'>";
+      echo "<form method='post' action=''>";
 
       echo "<table class='tab_cadre_fixe'>";
 

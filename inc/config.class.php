@@ -615,7 +615,7 @@ class PluginLdapcomputersConfig extends CommonDBTM {
          //If only one server, do not show the choose ldap server window
          $ldap                    = $iterator->next();
          $_SESSION['ldap_computers_import']['primary_ldap_id'] = $ldap["id"];
-         Html::redirect($_SERVER['PHP_SELF']);
+         Html::redirect($target);
       }
       echo "<div class='center'>";
       echo "<form action='$target' method=\"post\">";

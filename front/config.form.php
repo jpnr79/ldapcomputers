@@ -45,9 +45,7 @@ Session::checkRight("plugin_ldapcomputers_config", UPDATE);
 
 $config_ldap = new PluginLdapcomputersConfig();
 
-if (!isset($_GET['id'])) {
-   $_GET['id'] = "";
-}
+$id = $_GET['id'] ?? "";
 
 //LDAP Server add/update/delete
 if (isset($_POST["update"])) {
@@ -56,7 +54,7 @@ if (isset($_POST["update"])) {
 
 } else if (isset($_POST["add"])) {
    //If no name has been given to this configuration, then go back to the page without adding
-   if ($_POST["name"] != "") {
+   if (($_POST["name"] ?? "") != "") {
       if ($newID = $config_ldap->add($_POST)) {
          if (PluginLdapcomputersLdap::testLDAPConnection($newID)) {
             Session::addMessageAfterRedirect(__('Test successful'));
@@ -74,9 +72,9 @@ if (isset($_POST["update"])) {
    $config_ldap->redirectToList();
 
 } else if (isset($_POST["test_ldap"])) {
-   $config_ldap->getFromDB($_POST["id"]);
+   $config_ldap->getFromDB($_POST["id"] ?? 0);
 
-   if (PluginLdapcomputersLdap::testLDAPConnection($_POST["id"])) {
+   if (PluginLdapcomputersLdap::testLDAPConnection($_POST["id"] ?? 0)) {
                                        //TRANS: %s is the description of the test
       $_SESSION["LDAP_TEST_MESSAGE"] = sprintf(__('Test successful: %s'),
                                                //TRANS: %s is the name of the LDAP main server
@@ -92,9 +90,9 @@ if (isset($_POST["update"])) {
 
 } else if (isset($_POST["test_ldap_backup"])) {
    $backup_ldap = new PluginLdapcomputersLdapbackup();
-   $backup_ldap->getFromDB($_POST["ldap_backup_id"]);
+   $backup_ldap->getFromDB($_POST["ldap_backup_id"] ?? 0);
 
-   if (PluginLdapcomputersLdap::testLDAPConnection($_POST["id"], $_POST["ldap_backup_id"])) {
+   if (PluginLdapcomputersLdap::testLDAPConnection($_POST["id"] ?? 0, $_POST["ldap_backup_id"] ?? 0)) {
                                        //TRANS: %s is the description of the test
       $_SESSION["LDAP_TEST_MESSAGE"] = sprintf(__('Test successful: %s'),
                                                //TRANS: %s is the name of the LDAP replica server
@@ -116,7 +114,4 @@ if (isset($_POST["update"])) {
    Html::back();
 }
 
-Html::header(PluginLdapcomputersConfig::getTypeName(1), $_SERVER['PHP_SELF'], 'config', 'PluginLdapcomputersConfigmenu', 'ldapcomputersconfig');
-$config_ldap->display($_GET);
-
-Html::footer();
+$config_ldap->display(['id' => $id]);

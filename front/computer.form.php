@@ -45,9 +45,7 @@ Session::checkRight("plugin_ldapcomputers_view", UPDATE);
 
 $computer = new PluginLdapcomputersComputer();
 
-if (!isset($_GET['id'])) {
-   $_GET['id'] = "";
-}
+$id = $_GET['id'] ?? "";
 
 //LDAP Server add/update/delete
 if (isset($_POST["update"])) {
@@ -56,7 +54,7 @@ if (isset($_POST["update"])) {
 
 } else if (isset($_POST["add"])) {
    //If no name has been given to this configuration, then go back to the page without adding
-   if ($_POST["name"] != "") {
+   if (($_POST["name"] ?? "") != "") {
       if ($newID = $computer->add($_POST)) {
          Html::redirect($CFG_GLPI["root_doc"] . "/plugins/ldapcomputers/front/computer.php?next=ext_ldap&id=".$newID);
       }
@@ -70,8 +68,4 @@ if (isset($_POST["update"])) {
 
 }
 
-
-Html::header(PluginLdapcomputersComputer::getTypeName(1), $_SERVER['PHP_SELF'], 'admin', 'PluginLdapcomputersLdapcomputersmenu', 'ldapcomputerscomputer');
-$computer->display($_GET);
-
-Html::footer();
+$computer->display(['id' => $id]);

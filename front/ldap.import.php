@@ -49,11 +49,8 @@ if (isset($_SESSION['ldap_computers_import']['_in_modal']) && $_SESSION['ldap_co
     $_REQUEST['_in_modal'] = 1;
 }
 
-Html::header(__('LDAP directory link'), $_SERVER['PHP_SELF'], 'admin', 'PluginLdapcomputersLdapcomputersmenu', 'ldapcomputerscomputer');
-
-
 $ldap_server = new PluginLdapcomputersConfig();
-$ldap_server->getFromDB($_SESSION['ldap_computers_import']['primary_ldap_id']);
+$ldap_server->getFromDB($_SESSION['ldap_computers_import']['primary_ldap_id'] ?? 0);
 
 PluginLdapcomputersComputer::showComputersImportForm($ldap_server);
 
@@ -67,5 +64,3 @@ if (isset($_SESSION['ldap_computers_import']['primary_ldap_id'])
    Html::changeProgressBarPosition(1, 1, __('Task completed.'));
    HTML::redirect($CFG_GLPI["root_doc"] . "/plugins/ldapcomputers/front/computer.php");
 }
-
-Html::footer();
