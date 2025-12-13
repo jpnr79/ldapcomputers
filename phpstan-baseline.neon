@@ -1,0 +1,181 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to static method addErrorMessageAfterRedirect\(\) on an unknown class GLPINetwork\.$#'
+			identifier: class.notFound
+			count: 2
+			path: front/config.form.php
+
+		-
+			message: '#^Call to static method addErrorMessageAfterRedirect\(\) on an unknown class GlpiNetwork\.$#'
+			identifier: class.notFound
+			count: 1
+			path: front/config.form.php
+
+		-
+			message: '#^Call to an undefined static method Html\:\:changeProgressBarPosition\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: front/ldap.import.php
+
+		-
+			message: '#^Class Html referenced with incorrect case\: HTML\.$#'
+			identifier: class.nameCase
+			count: 1
+			path: front/ldap.import.php
+
+		-
+			message: '#^Call to an undefined static method Toolbox\:\:addslashes_deep\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Call to static method Register\(\) on an unknown class CronTask\.$#'
+			identifier: class.notFound
+			count: 2
+			path: hook.php
+
+		-
+			message: '#^Call to static method Unregister\(\) on an unknown class CronTask\.$#'
+			identifier: class.notFound
+			count: 1
+			path: hook.php
+
+		-
+			message: '#^Access to constant STATE_DISABLE on an unknown class CronTask\.$#'
+			identifier: class.notFound
+			count: 2
+			path: inc/computer.class.php
+
+		-
+			message: '#^Call to an undefined static method Toolbox\:\:decrypt\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: inc/computer.class.php
+
+		-
+			message: '#^Call to static method canUpdate\(\) on an unknown class Config\.$#'
+			identifier: class.notFound
+			count: 1
+			path: inc/computer.class.php
+
+		-
+			message: '#^Call to static method getType\(\) on an unknown class Computer\.$#'
+			identifier: class.notFound
+			count: 2
+			path: inc/computer.class.php
+
+		-
+			message: '#^Call to static method getType\(\) on an unknown class Phone\.$#'
+			identifier: class.notFound
+			count: 1
+			path: inc/computer.class.php
+
+		-
+			message: '#^Function ldap_control_paged_result not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: inc/computer.class.php
+
+		-
+			message: '#^Function ldap_control_paged_result_response not found\.$#'
+			identifier: function.notFound
+			count: 1
+			path: inc/computer.class.php
+
+		-
+			message: '#^Instantiated class CronTask not found\.$#'
+			identifier: class.notFound
+			count: 2
+			path: inc/computer.class.php
+
+		-
+			message: '#^Parameter \$item of method PluginLdapcomputersComputer\:\:countForItem\(\) has invalid type Computer\.$#'
+			identifier: class.notFound
+			count: 1
+			path: inc/computer.class.php
+
+		-
+			message: '#^Parameter \$item of method PluginLdapcomputersComputer\:\:displayTabContentForComputer\(\) has invalid type Computer\.$#'
+			identifier: class.notFound
+			count: 1
+			path: inc/computer.class.php
+
+		-
+			message: '#^Access to an undefined property PluginLdapcomputersConfig\:\:\$table\.$#'
+			identifier: property.notFound
+			count: 1
+			path: inc/config.class.php
+
+		-
+			message: '#^Access to an undefined property PluginLdapcomputersConfig\:\:\$updates\.$#'
+			identifier: property.notFound
+			count: 1
+			path: inc/config.class.php
+
+		-
+			message: '#^Call to an undefined static method Dropdown\:\:showGMT\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: inc/config.class.php
+
+		-
+			message: '#^Call to an undefined static method Dropdown\:\:showNumber\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: inc/config.class.php
+
+		-
+			message: '#^Call to an undefined static method Rule\:\:cleanForItemCriteria\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: inc/config.class.php
+
+		-
+			message: '#^Call to an undefined static method Toolbox\:\:canUseLdap\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: inc/config.class.php
+
+		-
+			message: '#^Call to an undefined static method Toolbox\:\:encrypt\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 2
+			path: inc/config.class.php
+
+		-
+			message: '#^Call to static method canUpdate\(\) on an unknown class Config\.$#'
+			identifier: class.notFound
+			count: 1
+			path: inc/config.class.php
+
+		-
+			message: '#^Call to static method getErrorMessage\(\) on an unknown class GLPINetwork\.$#'
+			identifier: class.notFound
+			count: 1
+			path: inc/config.class.php
+
+		-
+			message: '#^Call to an undefined static method Toolbox\:\:decrypt\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: inc/ldap.class.php
+
+		-
+			message: '#^Call to an undefined static method Toolbox\:\:logError\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 3
+			path: inc/ldap.class.php
+
+		-
+			message: '#^Call to an undefined static method ProfileRight\:\:deleteProfileRights\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: inc/profile.class.php
+
+		-
+			message: '#^Method PluginLdapcomputersProfile\:\:showForm\(\) should return nothing but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: inc/profile.class.php
