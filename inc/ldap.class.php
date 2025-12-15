@@ -233,12 +233,12 @@ class PluginLdapcomputersLdap extends CommonDBTM {
          $port = $backup_ldap->fields["port"];
       } else {
          //Test connection to a master ldap server
-         $host = $config_ldap->fields['host'] ?? '';
-         $port = $config_ldap->fields['port'] ?? '';
+         $host = ($config_ldap->fields['host'] ?? '');
+         $port = ($config_ldap->fields['port'] ?? '');
       }
-      $ds = self::connectToServer($host, $port, $config_ldap->fields['rootdn'] ?? '',
-                                  Toolbox::decrypt($config_ldap->fields['rootdn_passwd'] ?? '', GLPIKEY),
-                                  $config_ldap->fields['use_tls'] ?? '', $config_ldap->fields['deref_option'] ?? '');
+      $ds = self::connectToServer($host, $port, ($config_ldap->fields['rootdn'] ?? ''),
+                                  Toolbox::decrypt(($config_ldap->fields['rootdn_passwd'] ?? ''), GLPIKEY),
+                                  ($config_ldap->fields['use_tls'] ?? ''), ($config_ldap->fields['deref_option'] ?? ''));
       if ($ds) {
          return true;
       }
@@ -357,7 +357,7 @@ class PluginLdapcomputersLdap extends CommonDBTM {
     */
     static function isLdapPageSizeAvailable($config_ldap, $check_config_value = true) {
       return ((!$check_config_value
-               || ($check_config_value && $config_ldap->fields['can_support_pagesize'] ?? ''))
+               || ($check_config_value && ($config_ldap->fields['can_support_pagesize'] ?? '')))
                   && function_exists('ldap_control_paged_result')
                      && function_exists('ldap_control_paged_result_response'));
    }
