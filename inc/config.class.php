@@ -763,6 +763,20 @@ class PluginLdapcomputersConfig extends CommonDBTM {
             $item->showFormLdapBackupsConfig();
             break;
       }
+        return true;
+    }
+   public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0): bool {
+      switch ($tabnum) {
+         case 1 :
+            $item->showFormTestLDAP();
+            break;
+         case 2 :
+            $item->showFormAdvancedConfig();
+            break;
+         case 3 :
+            $item->showFormLdapBackupsConfig();
+            break;
+      }
       return true;
    }
 

@@ -80,7 +80,7 @@ class PluginLdapcomputersComputer extends CommonDBTM {
       return '';
    }
 
-   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
+   public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0): bool {
       switch ($item::getType()) {
          case Computer::getType():
             //display form for computers
