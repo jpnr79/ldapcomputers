@@ -750,22 +750,7 @@ class PluginLdapcomputersConfig extends CommonDBTM {
     *
     * @return boolean (TRUE)
     */
-   static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0) {
-      switch ($tabnum) {
-         case 1 :
-            $item->showFormTestLDAP();
-            break;
-         case 2 :
-            $item->showFormAdvancedConfig();
-            break;
-         case 3 :
-            $item->showFormLdapBackupsConfig();
-            break;
-      }
-        return true;
-    }
-   
-   // Keep single definition with explicit return type
+   // displayTabContentForItem: single typed implementation below
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0): bool {
       switch ($tabnum) {
          case 1 :
