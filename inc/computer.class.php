@@ -170,10 +170,8 @@ class PluginLdapcomputersComputer extends CommonDBTM {
 
       switch ($type) {
          case 'AD' :
-            $this->fields['port']                      = "389";
-            $this->fields['condition']
-               = '(&(&(&(samAccountType=805306369)(!(primaryGroupId=516)))
-                  (objectCategory=computer)(!(operatingSystem=Windows Server*))))';
+            $this->fields['port'] = "389";
+            $this->fields['condition'] = '(&(&(&(samAccountType=805306369)(!(primaryGroupId=516)))(objectCategory=computer)(!(operatingSystem=Windows Server*))))';
             break;
 
          default:
@@ -205,7 +203,7 @@ class PluginLdapcomputersComputer extends CommonDBTM {
       }
 
       $ldap_server = new PluginLdapcomputersConfig();
-      $ldap_server->getFromDB($this->fields['plugin_ldapcomputers_configs_id']);
+      $ldap_server->getFromDB($this->fields['plugin_ldapcomputers_configs_id'] ?? '');
 
       $options['formtitle'] = sprintf(
          '%1$s - %2$s',
@@ -281,13 +279,13 @@ class PluginLdapcomputersComputer extends CommonDBTM {
       echo "<td>" . __('Computer status in LDAP', 'ldapcomputers') . "</td><td>";
       PluginLdapcomputersState::Dropdown([
          'name'   => "plugin_ldapcomputers_states_id",
-         'value'  => $this->fields['plugin_ldapcomputers_states_id'],
+         'value'  => $this->fields['plugin_ldapcomputers_states_id'] ?? '',
       ]);
       echo"</td>";
       $is_in_glpi_computers = mt_rand();
       echo "<td><label for='dropdown_is_default$is_in_glpi_computers'>" . __('GLPI presence', 'ldapcomputers') . "</label></td>";
       echo "<td>";
-      Dropdown::showYesNo('is_in_glpi_computers', $this->fields['is_in_glpi_computers'], -1, ['rand' => $is_in_glpi_computers]);
+      Dropdown::showYesNo('is_in_glpi_computers', $this->fields['is_in_glpi_computers'] ?? '', -1, ['rand' => $is_in_glpi_computers]);
       echo "</td></tr>";
 
       $this->showFormButtons($options);
@@ -734,7 +732,7 @@ class PluginLdapcomputersComputer extends CommonDBTM {
                $attrs = [];
          }
          ***/
-         $filter = $ldap_server->fields['condition'];
+         $filter = $ldap_server->fields['condition'] ?? '';
          $result = self::searchForComputers($ds, $values, $filter, $attrs, $limitexceeded,
                                             $computer_infos, $ldap_server);
          if (!$result) {
@@ -773,7 +771,7 @@ class PluginLdapcomputersComputer extends CommonDBTM {
          if (PluginLdapcomputersLdap::isLdapPageSizeAvailable($config_ldap)) {
             if (version_compare(PHP_VERSION, '7.3') < 0) {
                //prior to PHP 7.3, use ldap_control_paged_result
-               ldap_control_paged_result($ds, $config_ldap->fields['pagesize'], true, $cookie);
+               ldap_control_paged_result($ds, $config_ldap->fields['pagesize'] ?? '', true, $cookie);
                $sr = @ldap_search($ds, $values['basedn'], $filter, $attrs);
             } else {
                //since PHP 7.3, send serverctrls to ldap_search
@@ -782,7 +780,7 @@ class PluginLdapcomputersComputer extends CommonDBTM {
                      'oid'        =>LDAP_CONTROL_PAGEDRESULTS,
                      'iscritical' => true,
                      'value'      => [
-                        'size'    => $config_ldap->fields['pagesize'],
+                        'size'    => $config_ldap->fields['pagesize'] ?? '',
                         'cookie'  => $cookie
                      ]
                   ]
@@ -821,8 +819,8 @@ class PluginLdapcomputersComputer extends CommonDBTM {
             //If page results are enabled and the number of results is greater than the maximum allowed
             //warn user that limit is exceeded and stop search
             if (PluginLdapcomputersLdap::isLdapPageSizeAvailable($config_ldap)
-                && $config_ldap->fields['ldap_maxlimit']
-                && ($count > $config_ldap->fields['ldap_maxlimit'])) {
+                && $config_ldap->fields['ldap_maxlimit'] ?? ''
+                && ($count > $config_ldap->fields['ldap_maxlimit'] ?? '')) {
                $limitexceeded = true;
                break;
             }
@@ -836,7 +834,7 @@ class PluginLdapcomputersComputer extends CommonDBTM {
                if (isset($info[$ligne]['lastlogon'][0])) {
                   $computer_infos[$objectGUID]["lastLogon"]  = PluginLdapcomputersLdap::ldapFiletime2Timestamp(
                      $info[$ligne]['lastlogon'][0],
-                     $config_ldap->fields['time_offset']
+                     $config_ldap->fields['time_offset'] ?? ''
                   );
                } else {
                   $computer_infos[$objectGUID]["lastLogon"] = null;
@@ -844,7 +842,7 @@ class PluginLdapcomputersComputer extends CommonDBTM {
                if (isset($info[$ligne]['lastlogontimestamp'][0])) {
                   $computer_infos[$objectGUID]["lastLogonTimestamp"]  = PluginLdapcomputersLdap::ldapFiletime2Timestamp(
                      $info[$ligne]['lastlogontimestamp'][0],
-                     $config_ldap->fields['time_offset']
+                     $config_ldap->fields['time_offset'] ?? ''
                   );
                } else {
                   $computer_infos[$objectGUID]["lastLogonTimestamp"] = null;
@@ -883,7 +881,7 @@ class PluginLdapcomputersComputer extends CommonDBTM {
                if (isset($info[$ligne]['whenchanged'][0])) {
                   $computer_infos[$objectGUID]["whenChanged"]  = PluginLdapcomputersLdap::ldapStamp2UnixStamp(
                      $info[$ligne]['whenchanged'][0],
-                     $config_ldap->fields['time_offset']
+                     $config_ldap->fields['time_offset'] ?? ''
                   );
                } else {
                   $computer_infos[$objectGUID]["whenChanged"] = null;
@@ -891,7 +889,7 @@ class PluginLdapcomputersComputer extends CommonDBTM {
                if (isset($info[$ligne]['whencreated'][0])) {
                   $computer_infos[$objectGUID]["whenCreated"]  = PluginLdapcomputersLdap::ldapStamp2UnixStamp(
                      $info[$ligne]['whencreated'][0],
-                     $config_ldap->fields['time_offset']
+                     $config_ldap->fields['time_offset'] ?? ''
                   );
                } else {
                   $computer_infos[$objectGUID]["whenCreated"] = null;

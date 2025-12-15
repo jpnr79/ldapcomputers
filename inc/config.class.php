@@ -74,10 +74,10 @@ class PluginLdapcomputersConfig extends CommonDBTM {
    }
 
    function post_getEmpty() {
-      $this->fields['port']                        = '389';
-      $this->fields['condition']                   = '(objectCategory=computer)';
-      $this->fields['use_tls']                     = 0;
-      $this->fields['comment_field']               = '';
+      $this->fields['port'] = '389';
+      $this->fields['condition'] = '(objectCategory=computer)';
+      $this->fields['use_tls'] = 0;
+      $this->fields['comment_field'] = '';
    }
 
    static public function unsetUndisclosedFields(&$fields) {
@@ -94,13 +94,12 @@ class PluginLdapcomputersConfig extends CommonDBTM {
    function preconfig($type) {
       switch ($type) {
          case 'AD' :
-            $this->fields['port']                      = "389";
-            $this->fields['condition']
-               = '(&(&(&(samAccountType=805306369)(!(primaryGroupId=516)))(objectCategory=computer)(!(operatingSystem=Windows Server*))))';
-            $this->fields['use_tls']                   = 0;
-            $this->fields['comment_field']             = '';
+            $this->fields['port'] = "389";
+            $this->fields['condition'] = '(&(&(&(samAccountType=805306369)(!(primaryGroupId=516)))(objectCategory=computer)(!(operatingSystem=Windows Server*))))';
+            $this->fields['use_tls'] = 0;
+            $this->fields['comment_field'] = '';
             $this->fields['can_support_pagesize']      = 1;
-            $this->fields['pagesize']                  = '1000';
+            $this->fields['pagesize'] = '1000';
             break;
          default: 
             $this->post_getEmpty();
@@ -193,12 +192,12 @@ class PluginLdapcomputersConfig extends CommonDBTM {
          $defaultrand = mt_rand();
          echo "<tr class='tab_bg_1'><td><label for='dropdown_is_default$defaultrand'>" . __('Default server') . "</label></td>";
          echo "<td>";
-         Dropdown::showYesNo('is_default', $this->fields['is_default'], -1, ['rand' => $defaultrand]);
+         Dropdown::showYesNo('is_default', $this->fields['is_default'] ?? '', -1, ['rand' => $defaultrand]);
          echo "</td>";
          $activerand = mt_rand();
          echo "<td><label for='dropdown_is_active$activerand'>" . __('Active'). "</label></td>";
          echo "<td>";
-         Dropdown::showYesNo('is_active', $this->fields['is_active'], -1, ['rand' => $activerand]);
+         Dropdown::showYesNo('is_active', $this->fields['is_active'] ?? '', -1, ['rand' => $activerand]);
          echo "</td></tr>";
          echo "<tr class='tab_bg_1'><td><label for='host'>" . __('Server') . "</label></td>";
          echo "<td><input type='text' id='host' name='host' value='" . $this->fields["host"] . "'></td>";
@@ -283,14 +282,14 @@ class PluginLdapcomputersConfig extends CommonDBTM {
          Dropdown::showYesNo('can_support_pagesize', $this->fields["can_support_pagesize"]);
          echo "</td>";
          echo "<td>" . __('Page size') . "</td><td>";
-         Dropdown::showNumber("pagesize", ['value' => $this->fields['pagesize'],
+         Dropdown::showNumber("pagesize", ['value' => $this->fields['pagesize'] ?? '',
                                                 'min'   => 100,
                                                 'max'   => 100000,
                                                 'step'  => 100]);
          echo"</td></tr>";
          echo "<tr class='tab_bg_1'>";
          echo "<td>" . __('Maximum number of results') . "</td><td>";
-         Dropdown::showNumber('ldap_maxlimit', ['value' => $this->fields['ldap_maxlimit'],
+         Dropdown::showNumber('ldap_maxlimit', ['value' => $this->fields['ldap_maxlimit'] ?? '',
                                                      'min'   => 100,
                                                      'max'   => 999999,
                                                      'step'  => 100,
@@ -315,7 +314,7 @@ class PluginLdapcomputersConfig extends CommonDBTM {
 
       echo "<tr class='tab_bg_1'>";
       echo "<td>" . __('How long to keep outdated computers', 'ldapcomputers') . "</td><td colspan='4'>";
-      Dropdown::showNumber("retention_date", ['value' => $this->fields['retention_date'],
+      Dropdown::showNumber("retention_date", ['value' => $this->fields['retention_date'] ?? '',
                                               'min'   => 5,
                                               'max'   => 365,
                                               'step'  => 5]);
@@ -708,7 +707,7 @@ class PluginLdapcomputersConfig extends CommonDBTM {
          $DB->update(
             $this->getTable(),
             ['is_default' => 0],
-            ['id' => ['<>', $this->fields['id']]]
+            ['id' => ['<>', $this->fields['id'] ?? '']]
          );
       }
    }
@@ -765,6 +764,8 @@ class PluginLdapcomputersConfig extends CommonDBTM {
       }
         return true;
     }
+   
+   // Keep single definition with explicit return type
    public static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0): bool {
       switch ($tabnum) {
          case 1 :
