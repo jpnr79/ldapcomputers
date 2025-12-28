@@ -726,12 +726,13 @@ class PluginLdapcomputersComputer extends CommonDBTM {
          $attrs = ["name", "lastLogon", "lastLogonTimestamp","logonCount", "distinguishedName", "dNSHostName","objectGUID",
                    "operatingSystem", "operatingSystemHotfix", "operatingSystemServicePack", "operatingSystemVersion",
                    "whenChanged", "whenCreated"];
-         /*** Need for debug purpous
+         // Debug: show all attrs if in debug mode (legacy, guarded)
+         /*
          if (isset($_SESSION['glpi_use_mode'])
-            && Session::DEBUG_MODE == $_SESSION['glpi_use_mode']) {
+            && defined('Session::DEBUG_MODE') && Session::DEBUG_MODE == $_SESSION['glpi_use_mode']) {
                $attrs = [];
          }
-         ***/
+         */
          $filter = ($ldap_server->fields['condition'] ?? '');
          $result = self::searchForComputers($ds, $values, $filter, $attrs, $limitexceeded,
                                             $computer_infos, $ldap_server);
@@ -808,12 +809,15 @@ class PluginLdapcomputersComputer extends CommonDBTM {
                $limitexceeded = true;
             }
 
-            /*** Need for debug purpous
+            // Debug: log LDAP info if in debug mode (legacy, guarded)
+            /*
             if (isset($_SESSION['glpi_use_mode'])
-                && Session::DEBUG_MODE == $_SESSION['glpi_use_mode']) {
-                  Toolbox::logInFile('ldapcomputers', print_r($info, true));
+                && defined('Session::DEBUG_MODE') && Session::DEBUG_MODE == $_SESSION['glpi_use_mode']) {
+               if (class_exists('Toolbox') && method_exists('Toolbox', 'logInFile')) {
+                  @Toolbox::logInFile('ldapcomputers', print_r($info, true));
+               }
             }
-            ***/
+            */
 
             $count += $info['count'];
             //If page results are enabled and the number of results is greater than the maximum allowed

@@ -108,25 +108,37 @@ function plugin_version_ldapcomputers() {
  * @return boolean
  */
 function plugin_ldapcomputers_check_prerequisites() {
-
-   //Version check is not done by core in GLPI < 9.2 but has to be delegated to core in GLPI >= 9.2.
-   $version = preg_replace('/^((\d+\.?)+).*$/', '$1', GLPI_VERSION);
-   echo $version;
-   if (version_compare($version, '9.2', '<')) {
-      $matchMinGlpiReq = version_compare($version, PLUGIN_LDAPCOMPUTERS_MIN_GLPI, '>=');
-      $matchMaxGlpiReq = version_compare($version, PLUGIN_LDAPCOMPUTERS_MAX_GLPI, '<');
-
-      if (!$matchMinGlpiReq || !$matchMaxGlpiReq) {
-         echo vsprintf(
-            'This plugin requires GLPI >= %1$s and < %2$s. Current version is %3$s.',
-            [
-               PLUGIN_LDAPCOMPUTERS_MIN_GLPI,
-               PLUGIN_LDAPCOMPUTERS_MAX_GLPI,
-               $version,
-            ]
-         );
-         return false;
+   // GLPI 11+ compatible version check: read from version file
+   $glpi_version = 'unknown';
+   $version_file = dirname(__DIR__, 2) . '/version';
+   if (file_exists($version_file)) {
+      $glpi_version = trim(file_get_contents($version_file));
+   }
+   $matchMinGlpiReq = version_compare($glpi_version, PLUGIN_LDAPCOMPUTERS_MIN_GLPI, '>=');
+   $matchMaxGlpiReq = version_compare($glpi_version, PLUGIN_LDAPCOMPUTERS_MAX_GLPI, '<');
+   if (!$matchMinGlpiReq || !$matchMaxGlpiReq) {
+      $msg = vsprintf(
+         'This plugin requires GLPI >= %1$s and < %2$s. Current version is %3$s.',
+         [
+            PLUGIN_LDAPCOMPUTERS_MIN_GLPI,
+            PLUGIN_LDAPCOMPUTERS_MAX_GLPI,
+            $glpi_version,
+         ]
+      );
+      // Try to log error using Toolbox::logInFile, fallback to file log
+      try {
+         if (class_exists('Toolbox') && method_exists('Toolbox', 'logInFile')) {
+            // Suppress static analysis error if Toolbox is not loaded
+            @Toolbox::logInFile('ldapcomputers', '[setup.php:plugin_ldapcomputers_check_prerequisites] ' . $msg . ' user=' . ($_SESSION['glpiname'] ?? 'unknown'));
+         } else {
+            $logfile = __DIR__ . '/ldapcomputers_error.log';
+            file_put_contents($logfile, '[setup.php:plugin_ldapcomputers_check_prerequisites] ' . $msg . ' user=' . ($_SESSION['glpiname'] ?? 'unknown') . "\n", FILE_APPEND);
+         }
+      } catch (\Throwable $e) {
+         // Fallback: ignore logging errors
       }
+      echo $msg;
+      return false;
    }
    return true;
 }
