@@ -111,11 +111,13 @@ function plugin_ldapcomputers_check_prerequisites() {
    // GLPI 11+ compatible version check: read from version file
    $glpi_version = 'unknown';
    $version_file = dirname(__DIR__, 2) . '/version';
-   if (file_exists($version_file)) {
+   if (is_file($version_file)) {
       $glpi_version = trim(file_get_contents($version_file));
+   } elseif (defined('GLPI_VERSION')) {
+      $glpi_version = constant('GLPI_VERSION');
    }
-   $matchMinGlpiReq = version_compare($glpi_version, PLUGIN_LDAPCOMPUTERS_MIN_GLPI, '>=');
-   $matchMaxGlpiReq = version_compare($glpi_version, PLUGIN_LDAPCOMPUTERS_MAX_GLPI, '<');
+   $matchMinGlpiReq = ($glpi_version !== 'unknown') && version_compare($glpi_version, PLUGIN_LDAPCOMPUTERS_MIN_GLPI, '>=');
+   $matchMaxGlpiReq = ($glpi_version !== 'unknown') && version_compare($glpi_version, PLUGIN_LDAPCOMPUTERS_MAX_GLPI, '<');
    if (!$matchMinGlpiReq || !$matchMaxGlpiReq) {
       $msg = vsprintf(
          'This plugin requires GLPI >= %1$s and < %2$s. Current version is %3$s.',
