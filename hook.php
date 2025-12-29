@@ -189,7 +189,7 @@ function plugin_ldapcomputers_install() {
             ] as $id => $label) {
       if (!countElementsInTable($table, ['id' => $id])) {
          $state->add(['id'   => $id,
-                      'name' => Toolbox::addslashes_deep($label),
+                      'name' => $label,
                      ]);
       }
    }
