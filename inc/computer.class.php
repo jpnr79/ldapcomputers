@@ -308,7 +308,7 @@ class PluginLdapcomputersComputer extends CommonDBTM {
     */
    function showForm($ID, $options = []) {
       if (!static::canUpdate()) {
-         return false;
+         return null;
       }
    
       if (empty($ID)) {
@@ -410,7 +410,8 @@ class PluginLdapcomputersComputer extends CommonDBTM {
 
       $this->showFormButtons($options);
 
-   }
+      return null;
+      }
 
    function rawSearchOptions() {
       $tab = [];
